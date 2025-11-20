@@ -1,20 +1,11 @@
-import math
+import numpy as np
+from typing import List
+from .types import City
 
-def euclidean(coord1, coord2): #DISTANCIA EUCLIDIANA (GRADOS, NO KILOMETROS)
-    lat1, lon1 = coord1
-    lat2, lon2 = coord2
-    
-    #DISTANCIA EUCLIDIANA 2D
-    return math.sqrt((lat1 - lat2)**2 + (lon1 - lon2)**2)
+def euclidean_matrix(coords: np.ndarray) -> np.ndarray: #DISTANCIA EUCLIDIANA (GRADOS, NO KM)
+    delta = coords[:, np.newaxis, :] - coords[np.newaxis, :, :]
+    return np.sqrt(np.sum(delta**2, axis=-1))
 
-def distance_matrix(cities): #MATRIZ DE DISTANCIAS "D"
-    n = len(cities)
-    matrix = [[0.0 for _ in range(n)] for _ in range(n)] #LLENA DE 0
-
-    for i in range(n): #SE LLENA LOL
-        for j in range(n):
-            coord1 = (cities[i]["lat"], cities[i]["lon"])
-            coord2 = (cities[j]["lat"], cities[j]["lon"])
-            matrix[i][j] = euclidean(coord1, coord2)
-
-    return matrix
+def distance_matrix(cities: List[City]) -> np.ndarray:
+    coords = np.array([(c.lat, c.lon) for c in cities])
+    return euclidean_matrix(coords)

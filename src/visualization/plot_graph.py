@@ -1,39 +1,43 @@
-import matplotlib.pylab as plt
+import matplotlib.pyplot as plt
+from matplotlib.collections import LineCollection
+import numpy as np
+from typing import List, Optional
 from core.paths import FIGS
+from core.types import City
 
-def plot_complete_graph(cities, D, save_path=None):
-    xs = [c["lon"] for c in cities]   #lon
-    ys = [c["lat"] for c in cities]   #lat
-    names = [c["name"] for c in cities]
-
-    plt.figure(figsize=(9, 7))
-
-    #DIBUJAR ARISTAS
+def plot_complete_graph(cities: List[City], D: np.ndarray, save_path: Optional[str] = None) -> None:
+    xs = [c.lon for c in cities] #lon
+    ys = [c.lat for c in cities] #lat
+    names = [c.name for c in cities]
     n = len(cities)
+
+    plt.figure(figsize=(10, 8))
+
+    segments = []
     for i in range(n):
-        for j in range(i+1, n):
-            plt.plot(
-                [cities[i]["lon"], cities[j]["lon"]],
-                [cities[i]["lat"], cities[j]["lat"]],
-                linewidth=0.5
-            )
+        for j in range(i + 1, n):
+            segments.append([(cities[i].lon, cities[i].lat), (cities[j].lon, cities[j].lat)])
+
+    lc = LineCollection(segments, linewidths=0.5, colors='blue', alpha=0.3)
+    plt.gca().add_collection(lc)
 
     #DIBUJAR NODOS
-    plt.scatter(xs, ys, s=100, color="red")
+    plt.scatter(xs, ys, s=100, color="red", zorder=5)
 
     #ETIQUETAS
     for i, name in enumerate(names):
-        plt.text(xs[i] + 0.02, ys[i] + 0.02, name, fontsize=10)
+        plt.text(xs[i] + 0.02, ys[i] + 0.02, name, fontsize=10, zorder=10)
 
-    plt.title("GRAFO COMPLETO CIUDADES SELECCIONADAS")
+    plt.title("Grafo Completo de Ciudades Seleccionadas")
     plt.xlabel("Longitud")
     plt.ylabel("Latitud")
-    plt.grid(True)
+    plt.grid(True, linestyle='--', alpha=0.7)
+    
+    plt.autoscale()
 
     if save_path:
-        save_path = FIGS / save_path
-        save_path.parent.mkdir(parents=True, exist_ok=True)
-        plt.savefig(save_path, dpi=300)
-
+        output_path = FIGS / save_path
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        plt.savefig(output_path, dpi=300, bbox_inches='tight')
 
     plt.show()

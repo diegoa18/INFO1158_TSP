@@ -1,17 +1,19 @@
-#CLASE GRAPH -> GRAFO COMPLETO Kn
-class Graph:
-    def __init__(self, cities, distance_matrix): #csv de las ciudades y las distancias
-        self.cities = cities                        #lista de ciudades 
-        self.names = [c["name"] for c in cities]    #lista de nombres
-        self.D = distance_matrix                    #matriz de distancias
-        self.n = len(cities)                        #cantidad de nodos
+from typing import List
+import numpy as np
+from .types import City
 
-    def get_distance(self, i, j):
-        return self.D[i][j]
+class Graph:
+    def __init__(self, cities: List[City], distance_matrix: np.ndarray):
+        self.cities = cities
+        self.names = [c.name for c in cities]
+        self.D = distance_matrix
+        self.n = len(cities)
+
+    def get_distance(self, i: int, j: int) -> float:
+        return self.D[i, j]
     
-    def get_city_name(self, i):
+    def get_city_name(self, i: int) -> str:
         return self.names[i]
     
-    #pa imprimir noma
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"Graph(n={self.n}, cities={self.names})"
