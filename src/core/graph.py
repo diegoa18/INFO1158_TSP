@@ -2,6 +2,7 @@ from typing import List
 import numpy as np
 from .types import City
 
+#REPRESANTACION DE GRAFO COMPLETO
 class Graph:
     def __init__(self, cities: List[City], distance_matrix: np.ndarray):
         self.cities = cities

@@ -4,6 +4,7 @@ from core.distance import distance_matrix
 from core.graph import Graph
 from visualization.plot_graph import plot_complete_graph
 
+#configuracion del logger
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 #TESTEO

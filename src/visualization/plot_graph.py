@@ -1,10 +1,11 @@
 import matplotlib.pyplot as plt
-from matplotlib.collections import LineCollection
+from matplotlib.collections import LineCollection #LineCollection -> dibujar lineas
 import numpy as np
 from typing import List, Optional
 from core.paths import FIGS
 from core.types import City
 
+#DIBUJO DE GRAFO COMPLETO
 def plot_complete_graph(cities: List[City], D: np.ndarray, save_path: Optional[str] = None) -> None:
     xs = [c.lon for c in cities] #lon
     ys = [c.lat for c in cities] #lat
@@ -13,12 +14,13 @@ def plot_complete_graph(cities: List[City], D: np.ndarray, save_path: Optional[s
 
     plt.figure(figsize=(10, 8))
 
+    #segmentos -> lineas (todos contra todos)
     segments = []
     for i in range(n):
         for j in range(i + 1, n):
             segments.append([(cities[i].lon, cities[i].lat), (cities[j].lon, cities[j].lat)])
 
-    lc = LineCollection(segments, linewidths=0.5, colors='blue', alpha=0.3)
+    lc = LineCollection(segments, linewidths=0.5, colors='blue', alpha=0.5)
     plt.gca().add_collection(lc)
 
     #DIBUJAR NODOS

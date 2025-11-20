@@ -1,10 +1,10 @@
 from pathlib import Path
-
+#RUTAS
 ROOT: Path = Path(__file__).resolve().parents[2]
 
 DATA: Path = ROOT / "data"
 FIGS: Path = ROOT / "figs"
 ROUTES: Path = FIGS / "routes"
 
-for folder in (FIGS, ROUTES):
+for folder in (FIGS, ROUTES): #deben existir
     folder.mkdir(parents=True, exist_ok=True)
