@@ -5,7 +5,7 @@ import numpy as np
 import sys
 import os
 
-#sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
 from core.loader import load_cities
 from core.distance import distance_matrix
@@ -13,10 +13,10 @@ from core.graph import Graph
 from brute_force.tsp_solver import solve_tsp_brute_force
 from core.paths import ROUTES
 
-def animate_tsp_brute_force():
+def animate_tsp_brute_force(n_cities: int = None):
     #cargar datos
     try:
-        cities = load_cities()
+        cities = load_cities(n_cities=n_cities)
     except FileNotFoundError:
         print("Error: cities.csv not found.")
         return
@@ -94,7 +94,15 @@ def animate_tsp_brute_force():
         
         return current_line_collection, best_line_collection, status_text
 
-    sample_rate = 50
+    #calcular frames
+    import math
+    total_frames = math.factorial(n - 1)
+    
+    if total_frames < 500:
+        sample_rate = 1
+    else:
+        sample_rate = total_frames // 200 #200FRAMES
+        
     sampled_frames = (frame for i, frame in enumerate(solver_gen) if i % sample_rate == 0)
 
     ani = animation.FuncAnimation(
@@ -107,8 +115,10 @@ def animate_tsp_brute_force():
     
     #ruta del gif
     output_file = ROUTES / f"brute_force{n}.gif"
+    print(f"Saving to: {output_file.resolve()}")
     
     try:
         ani.save(output_file, writer='pillow', fps=10)
+        print(f"Animation saved to {output_file}")
     except Exception as e:
         print(f"Error saving animation: {e}")
