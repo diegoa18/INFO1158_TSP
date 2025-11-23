@@ -19,7 +19,7 @@ def animate_tsp_brute_force(n_cities: int = None):
         cities = load_cities(n_cities=n_cities)
     except FileNotFoundError:
         print("Error: cities.csv not found.")
-        return
+        return None
 
     n = len(cities)
     
@@ -120,5 +120,7 @@ def animate_tsp_brute_force(n_cities: int = None):
     try:
         ani.save(output_file, writer='pillow', fps=10)
         print(f"Animation saved to {output_file}")
+        return output_file
     except Exception as e:
         print(f"Error saving animation: {e}")
+        return None

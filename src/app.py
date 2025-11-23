@@ -1,24 +1,26 @@
-import logging
-from core.loader import load_cities
-from core.distance import distance_matrix
-from core.graph import Graph
-from visualization.plot_graph import plot_complete_graph
+import os
+import sys
+import subprocess
 
-#configuracion del logger
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-
-#TESTEO
 def main():
+    #ENTRY POINT
+    print("Starting TSP Visualization App...")
+    
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    streamlit_app_path = os.path.join(current_dir, "web", "app.py")
+    
+    cmd = [sys.executable, "-m", "streamlit", "run", streamlit_app_path]
+    
+    print(f"Running command: {' '.join(cmd)}")
+    
     try:
-        cities = load_cities()
-        D = distance_matrix(cities)
-        graph = Graph(cities, D)
-        plot_complete_graph(cities, D, save_path="complete_graph.png")
-
-    except FileNotFoundError as e:
-        logging.error(e)
+        subprocess.run(cmd, check=True)
+    except KeyboardInterrupt:
+        print("\nApp stopped by user.")
+    except subprocess.CalledProcessError as e:
+        print(f"Error running app: {e}")
     except Exception as e:
-        logging.error(f"An unexpected error occurred: {e}")
+        print(f"An unexpected error occurred: {e}")
 
 if __name__ == "__main__":
     main()

@@ -100,4 +100,10 @@ def animate_nearest_neighbor(n_cities: int = None):
     output_path = FIGS / "routes" / "nearest_neighbor_tour.gif"
     output_path.parent.mkdir(parents=True, exist_ok=True)
     
-    anim.save(output_path, writer='pillow', fps=2)
+    try:
+        anim.save(output_path, writer='pillow', fps=2)
+        print("Done!")
+        return output_path
+    except Exception as e:
+        print(f"Error saving animation: {e}")
+        return None

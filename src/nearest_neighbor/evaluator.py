@@ -7,7 +7,7 @@ import numpy as np
 import time
 from typing import Dict, Any, List
 from core.graph import Graph
-from nearest_neighbor import nearest_neighbor_algorithm
+from nearest_neighbor.nearest_neighbor import nearest_neighbor_algorithm
 
 class Evaluator:
     def __init__(self, graph: Graph):
@@ -38,8 +38,3 @@ class Evaluator:
             "time": elapsed_time,
             "steps": steps
         }
-
-if __name__ == "__main__":
-    print("This module provides the Evaluator class.")
-    print("Please run 'src/nearest_neighbor/runner.py' to execute the algorithm and see metrics.")
-
