@@ -6,7 +6,7 @@ import itertools
 from typing import List, Tuple, Iterator, Optional
 from core.graph import Graph
                                                                     #generador, yield
-def solve_tsp_brute_force(graph: Graph) -> Iterator[Tuple[List[int],#->current path
+def solve_tsp_brute_force(graph: Graph, start_node: int = 0) -> Iterator[Tuple[List[int],#->current path
                                                     float,          #->current cost
                                                     List[int],      #->best path
                                                     float]]:        #->best cost
@@ -15,8 +15,8 @@ def solve_tsp_brute_force(graph: Graph) -> Iterator[Tuple[List[int],#->current p
     if n == 0:
         return #sin yield
 
-    start_node = 0 #fijar ciudad 0 (temuco), para eliminar rotaciones del mismo ciclo (esto debe ir en el informe 7_7)
-    other_nodes = list(range(1, n))
+    #start_node = 0 #fijar ciudad 0 (temuco), para eliminar rotaciones del mismo ciclo (esto debe ir en el informe 7_7)
+    other_nodes = [i for i in range(n) if i != start_node]
     
     best_path: Optional[List[int]] = None
     best_cost = float('inf')

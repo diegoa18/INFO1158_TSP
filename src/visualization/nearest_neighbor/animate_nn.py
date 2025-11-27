@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from matplotlib.collections import LineCollection
 import numpy as np
+
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
 from core.loader import load_cities
@@ -12,20 +13,25 @@ from core.graph import Graph
 from core.paths import FIGS
 from nearest_neighbor.nearest_neighbor import nearest_neighbor_algorithm
 
-def animate_nearest_neighbor(n_cities: int = None):
+def animate_nearest_neighbor(n_cities: int = None, start_node: int = 0):
     #cargar datos
     cities = load_cities(n_cities=n_cities)
+    n = len(cities)
+    
+    if n < 2:
+        print("Not enough cities for TSP.")
+        return None
+
     D = distance_matrix(cities)
     graph = Graph(cities, D)
     
     #NN
-    tour, length = nearest_neighbor_algorithm(graph, start=0)
+    tour, length = nearest_neighbor_algorithm(graph, start=start_node)
     
     #preparar visualizacion
     xs = [c.lon for c in cities]
     ys = [c.lat for c in cities]
     names = [c.name for c in cities]
-    n = len(cities)
     
     fig, ax = plt.subplots(figsize=(12, 10))
     
@@ -97,7 +103,7 @@ def animate_nearest_neighbor(n_cities: int = None):
     anim = animation.FuncAnimation(fig, update, frames=len(tour), init_func=init, blit=True, interval=500, repeat_delay=2000)
     
     #guardar
-    output_path = FIGS / "routes" / "nearest_neighbor_tour.gif"
+    output_path = FIGS / "routes" / f"nearest_neighbor_tour_n{n}_start{start_node}.gif"
     output_path.parent.mkdir(parents=True, exist_ok=True)
     
     try:

@@ -13,7 +13,7 @@ from core.graph import Graph
 from brute_force.tsp_solver import solve_tsp_brute_force
 from core.paths import ROUTES
 
-def animate_tsp_brute_force(n_cities: int = None):
+def animate_tsp_brute_force(n_cities: int = None, start_node: int = 0):
     #cargar datos
     try:
         cities = load_cities(n_cities=n_cities)
@@ -22,6 +22,10 @@ def animate_tsp_brute_force(n_cities: int = None):
         return None
 
     n = len(cities)
+    
+    if n < 2:
+        print("Not enough cities for TSP.")
+        return None
     
     #crear grafo
     dist_matrix = distance_matrix(cities)
@@ -64,7 +68,7 @@ def animate_tsp_brute_force(n_cities: int = None):
     ax.autoscale()
     
     #generador
-    solver_gen = solve_tsp_brute_force(graph)
+    solver_gen = solve_tsp_brute_force(graph, start_node=start_node)
     
     def update(frame_data):
         current_path, current_cost, best_path, best_cost = frame_data
@@ -103,18 +107,23 @@ def animate_tsp_brute_force(n_cities: int = None):
     else:
         sample_rate = total_frames // 200 #200FRAMES
         
-    sampled_frames = (frame for i, frame in enumerate(solver_gen) if i % sample_rate == 0)
+    # Convertir a lista para evitar problemas con generadores vacíos o de un solo elemento en FuncAnimation
+    sampled_frames = list(frame for i, frame in enumerate(solver_gen) if i % sample_rate == 0)
+
+    if not sampled_frames:
+        print("No frames generated.")
+        return None
 
     ani = animation.FuncAnimation(
         fig, 
         update, 
         frames=sampled_frames, 
-        interval=50, 
+        interval=500 if n <= 3 else 50, # Más lento para pocos nodos 
         blit=True, 
         repeat=False)
     
     #ruta del gif
-    output_file = ROUTES / f"brute_force{n}.gif"
+    output_file = ROUTES / f"brute_force{n}_start{start_node}.gif"
     print(f"Saving to: {output_file.resolve()}")
     
     try:

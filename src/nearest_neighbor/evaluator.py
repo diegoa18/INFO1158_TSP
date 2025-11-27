@@ -13,9 +13,9 @@ class Evaluator:
     def __init__(self, graph: Graph):
         self.graph = graph
 
-    def evaluate(self) -> Dict[str, Any]:
+    def evaluate(self, start_node: int = 0) -> Dict[str, Any]:
         # Start from node 0 (Temuco) as requested
-        start_node = 0
+        # start_node = 0
         
         start_time = time.perf_counter()
         
