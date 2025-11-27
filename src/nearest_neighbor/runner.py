@@ -1,7 +1,6 @@
 import sys
 import os
-
-# Add src to python path to allow imports from core
+#se agrega el src pa importar las cosas
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from core.loader import load_cities
@@ -11,7 +10,7 @@ from evaluator import Evaluator
 
 def main():
     try:
-        # Load data
+        # cargando la info, se ve buah <- ja
         print("Loading data...")
         cities = load_cities()
         D = distance_matrix(cities)
@@ -23,7 +22,7 @@ def main():
         evaluator = Evaluator(graph)
         metrics = evaluator.evaluate()
 
-        # Metrics
+        # toda la info, pero bonita
         print("\n" + "="*30)
         print("METRICS")
         print("="*30)

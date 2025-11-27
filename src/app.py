@@ -3,9 +3,11 @@ import sys
 import subprocess
 
 def main():
-    #ENTRY POINT
+    
+    #por aqui empieza todo
     print("Starting TSP Visualization App...")
     
+    #se pone el src para importar las cosas
     current_dir = os.path.dirname(os.path.abspath(__file__))
     streamlit_app_path = os.path.join(current_dir, "web", "app.py")
     

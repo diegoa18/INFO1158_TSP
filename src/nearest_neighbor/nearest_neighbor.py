@@ -9,21 +9,15 @@ import matplotlib.pyplot as plt
 
 from typing import List, Tuple, Optional
 
-# ALGORITMO NEAREST NEIGHBOR, QUE ES HEURISTICO y hamiltoniano 
-
-#parametros
-#graph -> contiene las ciudades y la matriz de distancia
-#start -> indice de la ciudad inicial por defecto es 0
-
-#retorna
-#tour -> lista de indices de ciudades, esto incluyendo el retorno de la ciudad inicial
-#total_leght -> la longitud de todo ciclo construido
+#funcion de vecino mas cercano
+# graph : es el grafo que tiene las ciudades y la matriz de distancia
+# start: es por donde parte
 
 def nearest_neighbor_algorithm(
         graph: Graph,
         start: int = 0 ) -> Tuple[List[int], float]:
     
-    n = graph.n
+    n = graph.n # el numero de ciudades
 
     # Verificaciones
     if n == 0:
@@ -38,7 +32,7 @@ def nearest_neighbor_algorithm(
     cities_visited = [False] * n
     cities_visited[start] = True
 
-    # Ruta construida
+    # Ruta que va a ser construida
     tour: List[int] = [start]
     
     total_length: float = 0.0
@@ -60,7 +54,7 @@ def nearest_neighbor_algorithm(
                 best_city = k
         
         if best_city is None:
-            break # Should not happen in a complete graph
+            break # esto pasa si la ciudad no tiene vecinos, ojala no pase :3
 
         # Nos movemos a la ciudad más cercana
         tour.append(best_city)
@@ -73,6 +67,7 @@ def nearest_neighbor_algorithm(
     tour.append(start)
     total_length += return_dist
 
+    #va a devolver la ruta y la longitud total
     return tour, total_length
 
 

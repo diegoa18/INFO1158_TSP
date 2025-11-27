@@ -1,11 +1,11 @@
 import matplotlib.pyplot as plt
-from matplotlib.collections import LineCollection #LineCollection -> dibujar lineas
+from matplotlib.collections import LineCollection # pa dibujar lineas
 import numpy as np
 from typing import List, Optional
 from core.paths import FIGS
 from core.types import City
 
-#DIBUJO DE GRAFO COMPLETO
+#dibuja el grafo completo con todas las cuiades
 def plot_complete_graph(cities: List[City], D: np.ndarray, save_path: Optional[str] = None) -> None:
     xs = [c.lon for c in cities] #lon
     ys = [c.lat for c in cities] #lat
@@ -14,7 +14,7 @@ def plot_complete_graph(cities: List[City], D: np.ndarray, save_path: Optional[s
 
     plt.figure(figsize=(10, 8))
 
-    #segmentos -> lineas (todos contra todos)
+    #lineas entre todas las ciudades
     segments = []
     for i in range(n):
         for j in range(i + 1, n):
@@ -23,10 +23,10 @@ def plot_complete_graph(cities: List[City], D: np.ndarray, save_path: Optional[s
     lc = LineCollection(segments, linewidths=0.5, colors='blue', alpha=0.5)
     plt.gca().add_collection(lc)
 
-    #DIBUJAR NODOS
+    #dibuja los nodos
     plt.scatter(xs, ys, s=100, color="red", zorder=5)
 
-    #ETIQUETAS
+    #etiquetas
     for i, name in enumerate(names):
         plt.text(xs[i] + 0.02, ys[i] + 0.02, name, fontsize=10, zorder=10)
 
